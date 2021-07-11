@@ -101,14 +101,13 @@ app.post("/districts/", async (request, response) => {
 //GET district based on ID
 app.get("/districts/:districtId/", async (request, response) => {
   const { districtId } = request.params;
-  console.log(districtId);
   const getDistrictQuery = `
     SELECT * FROM district
     WHERE district_id=${districtId};`;
 
-  const dbResponse = await db.run(getDistrictQuery);
-  response.send(dbResponse);
-  //response.send(convertDistrictToResponse(dbResponse));
+  const dbResponse = await db.get(getDistrictQuery);
+  //response.send(dbResponse);
+  response.send(convertDistrictToResponse(dbResponse));
 });
 
 //Delete district Id
@@ -150,7 +149,7 @@ app.put("/districts/:districtId/", async (request, response) => {
 //get total stats
 app.get("/states/:stateId/stats/", async (request, response) => {
   const { stateId } = request.params;
-  console.log(stateId);
+
   const getStatsQuery = `
     SELECT SUM(cases) as totalCases,
     SUM(cured) as totalCured, 
@@ -176,4 +175,4 @@ app.get("/districts/:districtId/details/", async (request, response) => {
   });
 });
 
-module.exports = express;
+module.exports = app;
