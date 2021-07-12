@@ -50,8 +50,7 @@ const convertDistrictToResponse = (obj) => {
 
 //Get state list details
 app.get("/states/", async (request, response) => {
-  const stateQuery = `SELECT * FROM state order by 
-  state_id;`;
+  const stateQuery = `SELECT * FROM state;`;
   const dbResponse = await db.all(stateQuery);
   response.send(dbResponse.map((each) => convertStateToResponse(each)));
 });
@@ -157,7 +156,7 @@ app.get("/states/:stateId/stats/", async (request, response) => {
     SUM(deaths) as totalDeaths
     FROM district WHERE state_id=${stateId};`;
 
-  const dbResponse = await db.all(getStatsQuery);
+  const dbResponse = await db.get(getStatsQuery);
   response.send(dbResponse);
 });
 
